@@ -69,9 +69,11 @@ Start the server
 
 ## > *Team & Roles:*
 
-- [@vishva.pambhar](https://www.github.com/shlok377) - *(featureA, featureB)*
-- [@shlok.dalsania](https://www.github.com/shlok377) - *(featureA, featureB)*
-- [@jashn.joshi](https://www.github.com/shlok377) - *(featureA, featureB)*
+- [@shlok.dalsania](https://www.github.com/shlok377) ***Lead**, AI logic, CheatSheet and Quiz Generator*
+- [@vishva.pambhar](https://www.github.com/shlok377) - *Frontend UI/UX, Other Apps Blocking*
+- [@jashn.joshi](https://www.github.com/shlok377) - *Pomodoro Timers, Google Calendar Integration*
+
+*(Presentation PPT was crafted by a combined effort from all three members)*
 
 
 ## > *Lessons Learned:*
