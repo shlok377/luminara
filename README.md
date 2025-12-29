@@ -1,0 +1,80 @@
+
+![Logo](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/th5xamgrr6se0x5ro4g6.png)
+
+
+# **Student Academia**
+
+An AI-powered study companion application that plans your syllabus, summarizes your notes, tests your knowledge, and protects your focus.
+## > *Key Features:*
+
+- **Cheatsheet Generator:** Converts notes or topics into concise, exam-oriented summaries using AI.
+- **Syllabus-to-Calendar Planner:** Breaks down a syllabus into a personalized day-wise study schedule. (exportable to Google Calendar)
+- **AI-Generated Mini Tests:** Creates short quizzes from user notes to reinforce learning and practice most common questions
+- **App Blocking with Timers:** Blocks distracting apps/websites during study intervals to improve focus
+
+
+## > *Tech Stack:*
+
+- **Frontend:** PyQt6
+- **AI Models:** llama3.1:8b
+- **Backend:** tqdm, PyMuPDF
+- **Data Storage:** .json
+
+## > *How It Works:*
+1. User uploads syllabus or notes
+2. AI processes and generates summaries/tests
+3. Planner schedules tasks
+4. Focus mode blocks distractions
+5. Timers monitor the study sessions
+
+
+## > *Run Locally: (DO NOT TRY)*
+
+
+Clone the project 
+
+```bash
+  git clone https://link-to-project
+```
+
+Go to the project directory
+
+```bash
+  cd my-project
+```
+
+Install dependencies
+
+```bash
+  npm install
+```
+
+Start the server
+
+```bash
+  npm run start
+```
+
+
+## > *Screenshots:*
+
+![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+
+## > *Future Scope:*
+- Adaptive learning
+- Performance analytics
+- Mobile app
+- API based AI framework
+
+
+## > *Team & Roles:*
+
+- [@vishva.pambhar](https://www.github.com/shlok377) - *(featureA, featureB)*
+- [@shlok.dalsania](https://www.github.com/shlok377) - *(featureA, featureB)*
+- [@jashn.joshi](https://www.github.com/shlok377) - *(featureA, featureB)*
+
+
+## > *Lessons Learned:*
+
+What did you learn while building this project? What challenges did you face and how did you overcome them?
+
