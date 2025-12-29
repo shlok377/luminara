@@ -76,5 +76,11 @@ Start the server
 
 ## > *Lessons Learned:*
 
-What did you learn while building this project? What challenges did you face and how did you overcome them?
+1. Problem Understanding Comes Before AI
+2. AI Outputs Need Constraints
+3. Planning Logic Is as Important as Intelligence
+4. Focus Tools Must Be Simple
+5. Integration Is Harder Than Individual Features
+#
 
+# **THANK YOU :)**
