@@ -9,7 +9,7 @@ Extract the following categories:
 1. "definitions": A list of objects with "term" and "definition".
 2. "comparisons": A list of objects with "subject_a", "subject_b", and "difference_or_similarity".
 3. "timelines": A list of objects with "date" and "event".
-4. "concepts": A list of objects with "name" and "explanation".
+4. "concepts": A list of objects with "name" and "explanation". The explanation must include a brief summary or background information describing the concept, not just a passing reference.
 
 Rules:
 - Output strictly valid JSON.
