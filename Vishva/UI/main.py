@@ -86,6 +86,52 @@ class GlassCard(QFrame):
         painter.setPen(QPen(QColor(255, 255, 255, 30), 1.5))
         painter.drawPath(path)
 
+class AcademiaCalendar(QCalendarWidget):
+    """Custom Calendar with Bottom-Aligned Event Bars and Rounded Highlights"""
+    def __init__(self, accent_color, parent=None):
+        super().__init__(parent)
+        self.accent_color = accent_color
+        self.events = {}
+
+    def paintCell(self, painter, rect, date):
+        # Apply standard painting first
+        painter.save()
+        painter.setRenderHint(QPainter.RenderHint.Antialiasing)
+        
+        # Increase Date Number Font Size
+        font = painter.font()
+        font.setPointSize(10)
+        painter.setFont(font)
+        
+        super().paintCell(painter, rect, date)
+        
+        if date in self.events:
+            # Position event bar at the BOTTOM of the cell to avoid overlap
+            y_pos = rect.bottom() - 22 
+            
+            for event_text in self.events[date][:2]: # Display up to 2 events
+                bar_rect = QRect(rect.left() + 6, int(y_pos), rect.width() - 12, 16)
+                
+                # Draw the Bar (Deep Purple)
+                painter.setBrush(QColor("#6D28D9")) 
+                painter.setPen(Qt.PenStyle.NoPen)
+                painter.drawRoundedRect(bar_rect, 4, 4)
+                
+                # Draw the Text (Star icon + Name)
+                painter.setPen(QColor("white"))
+                font.setPointSize(7)
+                font.setBold(True)
+                painter.setFont(font)
+                
+                display_text = f"★ {event_text}"
+                metrics = QFontMetrics(font)
+                elided_text = metrics.elidedText(display_text, Qt.TextElideMode.ElideRight, bar_rect.width() - 6)
+                
+                painter.drawText(bar_rect.adjusted(5, 0, 0, 0), Qt.AlignmentFlag.AlignVCenter, elided_text)
+                y_pos -= 18 
+        
+        painter.restore()
+
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -110,7 +156,7 @@ class MainWindow(QMainWindow):
         self.main_layout.setContentsMargins(0, 0, 0, 0)
         self.main_layout.setSpacing(0)
 
-        # 1) Sidebar with Icon Labels
+        # Sidebar with Labels
         self.sidebar = QFrame()
         self.sidebar.setFixedWidth(110)
         self.sidebar.setStyleSheet(f"background: {self.color_30_secondary}; border-right: 1px solid rgba(255,255,255,10);")
@@ -126,10 +172,8 @@ class MainWindow(QMainWindow):
             btn = QPushButton(icon); btn.setFixedSize(55, 55); btn.setCheckable(True)
             btn.setStyleSheet(f"QPushButton {{ font-size: 24px; background: transparent; border-radius: 15px; color: white; }}"
                               f"QPushButton:checked {{ background: white; color: {self.color_10_accent}; }}")
-            
             lbl = QLabel(name); lbl.setAlignment(Qt.AlignmentFlag.AlignCenter)
-            lbl.setStyleSheet("color: white; font-size: 9px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;")
-            
+            lbl.setStyleSheet("color: white; font-size: 9px; font-weight: bold; text-transform: uppercase;")
             btn.clicked.connect(lambda checked, idx=i: self.change_page(idx))
             lay.addWidget(btn, alignment=Qt.AlignmentFlag.AlignCenter); lay.addWidget(lbl, alignment=Qt.AlignmentFlag.AlignCenter)
             self.side_lay.addWidget(container); self.buttons.append(btn)
@@ -170,28 +214,19 @@ class MainWindow(QMainWindow):
         page = QWidget(); main_lay = QVBoxLayout(page); main_lay.setContentsMargins(30, 30, 30, 30)
         top_bar = QHBoxLayout(); self.mini_timer = ClickableTimer("25:00", self.color_10_accent); self.mini_timer.clicked.connect(lambda: self.change_page(3))
         top_bar.addWidget(self.mini_timer); top_bar.addStretch(); main_lay.addLayout(top_bar)
-        
         content_lay = QHBoxLayout(); content_lay.setSpacing(25)
         hist = GlassCard(); hist.setFixedWidth(220); h_lay = QVBoxLayout(hist)
         h_lay.addWidget(QLabel("📜 HISTORY", styleSheet="color: white; font-weight: bold;"))
         self.hist_list = QListWidget(); self.hist_list.setStyleSheet("background: transparent; color: #A78BFA; border: none;")
         h_lay.addWidget(self.hist_list)
-        
-        self.notes_editor = QTextEdit(); self.notes_editor.setPlaceholderText("Notes content...")
-        self.notes_editor.setStyleSheet("background: rgba(10, 10, 25, 150); color: white; border-radius: 20px; padding: 20px; border: 1px solid rgba(255,255,255,10);")
-        
+        self.notes_editor = QTextEdit(); self.notes_editor.setPlaceholderText("Notes content..."); self.notes_editor.setStyleSheet("background: rgba(10, 10, 25, 150); color: white; border-radius: 20px; padding: 20px; border: 1px solid rgba(255,255,255,10);")
         toolbox = GlassCard(); toolbox.setFixedWidth(280); t_lay = QVBoxLayout(toolbox)
         t_lay.setContentsMargins(15, 25, 15, 25)
         t_lay.addWidget(QLabel("AI TOOLBOX", styleSheet=f"color: {self.color_10_accent}; font-weight: bold;"))
-        t_lay.addSpacing(20); t_lay.addWidget(QLabel("SUMMARY TONE", styleSheet="color: white; font-size: 10px;"))
-        
-        # 2) Opaque Dropdown
         tone = QComboBox(); tone.addItems(["Technical", "ELI5", "Bullet Points", "Narrative"])
         tone.setStyleSheet("QComboBox { background-color: #1A1D2E; color: white; border-radius: 8px; padding: 10px; border: 1px solid rgba(255,255,255,10); } QComboBox QAbstractItemView { background: #1A1D2E; color: white; selection-background-color: #8B5CF6; }")
-        t_lay.addWidget(tone)
-        
+        t_lay.addSpacing(20); t_lay.addWidget(QLabel("SUMMARY TONE", styleSheet="color: white; font-size: 10px;")); t_lay.addWidget(tone)
         t_lay.addStretch(); gen_btn = GlowButton("✨ GENERATE", self.color_10_accent); gen_btn.setMinimumHeight(55); t_lay.addWidget(gen_btn)
-        
         content_lay.addWidget(hist, 2); content_lay.addWidget(self.notes_editor, 6); content_lay.addWidget(toolbox, 2)
         main_lay.addLayout(content_lay); self.stack.addWidget(page)
 
@@ -200,25 +235,11 @@ class MainWindow(QMainWindow):
         display = GlassCard(); d_lay = QVBoxLayout(display)
         self.quiz_area = QTextEdit(); self.quiz_area.setPlaceholderText("Quiz content..."); self.quiz_area.setStyleSheet("background: transparent; color: white; border: none;")
         d_lay.addWidget(self.quiz_area)
-        
         ctrls = GlassCard(); ctrls.setFixedWidth(310); c_lay = QVBoxLayout(ctrls)
         c_lay.setContentsMargins(15, 25, 15, 25)
         c_lay.addWidget(QLabel("QUIZ CONFIG", styleSheet=f"color: {self.color_10_accent}; font-weight: bold; font-size: 12px;"))
-        
-        # 3) Adjusted Questions Count Styling
-        c_lay.addSpacing(20)
-        q_count_lbl = QLabel("QUESTIONS COUNT")
-        q_count_lbl.setStyleSheet(f"color: {self.color_text_dim}; font-size: 10px; font-weight: bold; letter-spacing: 1px;")
-        c_lay.addWidget(q_count_lbl)
-        
-        spin = QSpinBox(); spin.setRange(5, 50); spin.setValue(10)
-        spin.setStyleSheet("QSpinBox { background-color: #1A1D2E; color: white; border-radius: 8px; padding: 10px; border: 1px solid rgba(255,255,255,10); }")
-        c_lay.addWidget(spin)
-        
-        c_lay.addSpacing(20)
-        for opt in ["Multiple Choice", "True/False", "Key Concepts"]:
-            chk = QCheckBox(opt); chk.setStyleSheet("color: #A78BFA; font-size: 11px;"); c_lay.addWidget(chk)
-            
+        spin = QSpinBox(); spin.setRange(5, 50); spin.setValue(10); spin.setStyleSheet("QSpinBox { background-color: #1A1D2E; color: white; border-radius: 8px; padding: 10px; border: 1px solid rgba(255,255,255,10); }")
+        c_lay.addSpacing(20); c_lay.addWidget(QLabel("QUESTIONS COUNT", styleSheet=f"color: {self.color_text_dim}; font-size: 10px; font-weight: bold;")); c_lay.addWidget(spin)
         c_lay.addStretch(); quiz_gen_btn = GlowButton("🚀 GENERATE QUIZ", self.color_10_accent); quiz_gen_btn.setMinimumHeight(55); c_lay.addWidget(quiz_gen_btn)
         lay.addWidget(display, 7); lay.addWidget(ctrls, 3); self.stack.addWidget(page)
 
@@ -244,8 +265,7 @@ class MainWindow(QMainWindow):
         self.pom_timer.stop(); self.timer_running = False; self.timer_seconds = 25 * 60
         self.timer_label.setText("25:00"); self.mini_timer.setText("25:00"); self.start_btn.setText("START")
 
-    def capture_lap(self):
-        self.hist_list.addItem(f"⏱️ Focus Lap: {self.timer_label.text()} (at {time.strftime('%H:%M:%S')})")
+    def capture_lap(self): self.hist_list.addItem(f"⏱️ Focus Lap: {self.timer_label.text()} (at {time.strftime('%H:%M:%S')})")
 
     def update_pomodoro(self):
         if self.timer_seconds > 0:
@@ -258,32 +278,29 @@ class MainWindow(QMainWindow):
     def setup_calendar(self):
         page = QWidget(); lay = QVBoxLayout(page); lay.setContentsMargins(40, 40, 40, 40)
         cal_card = GlassCard(); cv = QVBoxLayout(cal_card)
-        cal = QCalendarWidget()
-        
-        # 4) Fix Overlap & 5) Rounded Boxes
-        cal.setStyleSheet(f"""
+        self.calendar = AcademiaCalendar(self.color_10_accent)
+        self.calendar.activated.connect(self.add_calendar_event)
+        self.calendar.setStyleSheet(f"""
             QCalendarWidget QWidget {{ color: white; font-family: 'Inter'; }}
             QCalendarWidget QAbstractItemView {{ background-color: #111122; border-radius: 15px; selection-background-color: {self.color_10_accent}; }}
             
-            /* Rounded Date Boxes */
-            QCalendarWidget QAbstractItemView:item {{ border-radius: 8px; margin: 2px; border: 1px solid rgba(255,255,255,5); }}
-
-            /* Fixed Header Overlap */
-            QCalendarWidget QWidget#qt_calendar_navigationbar {{ 
-                background-color: #1A1A2E; 
-                min-height: 85px; padding: 5px 20px; border-bottom: 1px solid rgba(139, 92, 246, 0.2);
-            }}
-            QCalendarWidget QToolButton {{ 
-                color: white; font-weight: bold; background: transparent; 
-                height: 40px; width: 140px; /* Increased width to prevent text overlap */
-                border-radius: 8px; margin: 0 5px;
-            }}
-            QCalendarWidget QToolButton:hover {{ background: rgba(139, 92, 246, 0.3); }}
+            /* Rounded Selection Boxes */
+            QCalendarWidget QAbstractItemView:item {{ border-radius: 8px; margin: 3px; }}
             
-            /* Opaque Year/Month Spinners */
+            QCalendarWidget QWidget#qt_calendar_navigationbar {{ 
+                background-color: #1A1A2E; min-height: 85px; padding: 5px 20px; border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+            }}
+            QCalendarWidget QToolButton {{ color: white; font-weight: bold; background: transparent; height: 40px; width: 140px; border-radius: 8px; }}
+            QCalendarWidget QToolButton:hover {{ background: rgba(139, 92, 246, 0.3); }}
             QCalendarWidget QSpinBox {{ background-color: #1A1D2E; color: white; width: 65px; border-radius: 5px; }}
         """)
-        cv.addWidget(cal); lay.addWidget(cal_card); self.stack.addWidget(page)
+        cv.addWidget(self.calendar); lay.addWidget(cal_card); self.stack.addWidget(page)
+
+    def add_calendar_event(self, qdate):
+        text, ok = QInputDialog.getText(self, "Add Event", f"Enter Exam/Event for {qdate.toString('MMM d')}:")
+        if ok and text:
+            if qdate not in self.calendar.events: self.calendar.events[qdate] = []
+            self.calendar.events[qdate].append(text); self.calendar.update()
 
     def paintEvent(self, event):
         p = QPainter(self); g = QLinearGradient(0, 0, self.width(), self.height())
