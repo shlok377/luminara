@@ -1,8 +1,11 @@
 Commands if the Generate button doesnt respond
 
+1. UPLOAD the PDF files using the upload button in the home screen
 
-Open the terminal in the main directory of the repository i.e. luminara -> run these commands
-RESULTS WILL BE STORED IN THE MASTER DIRECTORY ITSELF IN .json FORMAT
+2. Open the terminal in the main directory of the repository i.e. luminara -> run these commands
+
+3. RESULTS WILL BE STORED IN THE MASTER DIRECTORY ITSELF IN .json FORMAT
+
 
 
 FOR QNA GENERATOR:
@@ -13,9 +16,8 @@ Options available to replace [type] with:
 2. True/False
 3. MCQ
 
-[characters] can be replaced with any integer between 150 to 450 depending on your requirement,
-You can skip --limit [characters] entirely too
-
+* [characters] can be replaced with any integer between 150 to 450 depending on your requirement,
+* You can skip --limit [characters] entirely too
 
 
 FOR NOTES GENERATOR:
