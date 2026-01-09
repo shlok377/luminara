@@ -1,0 +1,68 @@
+{
+    "definitions": [
+        {
+            "term": "DataFrame",
+            "definition": "A two-dimensional labeled data structure with columns of potentially different types, similar to a spreadsheet or SQL table."
+        },
+        {
+            "term": "Matplotlib",
+            "definition": "A popular Python library for creating visualizations."
+        },
+        {
+            "term": "NumPy",
+            "definition": "A Python library for numerical computing."
+        },
+        {
+            "term": "Pandas",
+            "definition": "A Python library for data manipulation and analysis."
+        },
+        {
+            "term": "Series",
+            "definition": "A one-dimensional labeled array capable of holding any data type."
+        }
+    ],
+    "comparisons": [],
+    "timelines": [],
+    "concepts": [
+        {
+            "name": "Data Cleaning",
+            "explanation": "Handling missing or duplicate data, data normalization, and data type conversion to prepare data for analysis."
+        },
+        {
+            "name": "Data Ingestion",
+            "explanation": "The process of reading and writing data from various file formats such as CSV, Excel, SQL databases, and more."
+        },
+        {
+            "name": "Data Manipulation",
+            "explanation": "Filtering, sorting, grouping, and aggregating data to extract insights and meaning."
+        },
+        {
+            "name": "Data Visualization",
+            "explanation": "Creating insightful visualizations using libraries like Matplotlib and Seaborn to communicate findings effectively."
+        },
+        {
+            "name": "Data Visualization Requirements",
+            "explanation": "Different types of data and visualization requirements that can be catered to using Matplotlib's plotting functions."
+        },
+        {
+            "name": "DataFrame",
+            "explanation": "A two-dimensional labeled data structure with columns of potentially different types, similar to a spreadsheet or SQL table."
+        },
+        {
+            "name": "Plot Types and Customization Options",
+            "explanation": "Range of plot types and customization options available in Matplotlib for various data visualization needs."
+        },
+        {
+            "name": "Series",
+            "explanation": "A one-dimensional labeled array capable of holding any data type."
+        },
+        {
+            "name": "Static, Interactive, and Animated Visualizations",
+            "explanation": "Types of visualizations that can be created using Matplotlib"
+        },
+        {
+            "name": "Time Series Analysis",
+            "explanation": "Specialized tools for working with time series data, including date/time indexing and frequency conversion."
+        }
+    ]
+}

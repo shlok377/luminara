@@ -1,0 +1,20 @@
+[
+    {
+        "question": "What is the primary function of Pandas library?",
+        "answer": "Pandas is a Python library widely used for data manipulation and analysis.",
+        "type": "Long Answer",
+        "context_snippet": "• Pandas is a Python library widely used for data manipulation and analysis."
+    },
+    {
+        "question": "How does Pandas' Series differ from a DataFrame?",
+        "answer": "A Series in Pandas is a one-dimensional labeled array capable of holding any data type, as opposed to a DataFrame which is two-dimensional. This distinction highlights the versatility of Pandas in accommodating different data structures and types for efficient manipulation and analysis.",
+        "type": "Long Answer",
+        "context_snippet": "Definition: Series - A one-dimensional labeled array capable of holding any data type."
+    },
+    {
+        "question": "How does NumPy contribute to pandas' ability to handle large datasets?",
+        "answer": "NumPy's capabilities as a Python library for numerical computing make it an essential component in pandas' ability to efficiently work with large datasets. Built on top of NumPy, pandas leverages its strengths to provide fast and efficient data manipulation and analysis.",
+        "type": "Long Answer",
+        "context_snippet": "Concept: NumPy - Another Python library for numerical computing, which provides support for large, multi-dimensional arrays and matrices..."
+    }
+]
