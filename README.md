@@ -28,7 +28,7 @@ An AI-powered study companion application that plans your syllabus, summarizes y
 5. Timers monitor the study sessions
 
 
-## Run Locally
+## > *Run Locally:*
 
 1. Install and Run the Ollama Application
 
